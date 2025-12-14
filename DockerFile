@@ -1,29 +1,47 @@
-# Dockerfile
+# Dockerfile (INSTANT CLIENT KURULUMU EKLENMİŞTİR)
 ARG PYTHON_VERSION=3.10
 FROM python:${PYTHON_VERSION}-slim
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
+# Oracle Instant Client için gerekli ortam değişkenlerini ve sürümünü tanımlama
+ENV ORACLE_INSTANT_CLIENT_VERSION=23.4
+ENV LD_LIBRARY_PATH=/usr/lib/oracle/${ORACLE_INSTANT_CLIENT_VERSION}/client64/lib/
+
+# 1. Gerekli Linux Kütüphanelerini ve Instant Client'ı İndirme/Kurma
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    build-essential \
+    unzip \
     libaio1 \
-    libxml2-dev \
-    libxslt1-dev \
+    build-essential \
     gcc \
     libpq-dev && \
+    mkdir -p /opt/oracle && \
+    # Instant Client Basic Package'ı indirme (x64 Linux için)
+    curl -o /opt/oracle/instantclient.zip https://download.oracle.com/otn_software/linux/instantclient/234000/instantclient-basiclite-linux.x64-23.4.0.24.05.zip && \
+    unzip /opt/oracle/instantclient.zip -d /usr/lib/oracle/ && \
+    ln -s /usr/lib/oracle/instantclient_${ORACLE_INSTANT_CLIENT_VERSION}/ /usr/lib/oracle/${ORACLE_INSTANT_CLIENT_VERSION}/client64 && \
+    rm /opt/oracle/instantclient.zip && \
+    # LD_LIBRARY_PATH'i manuel olarak ayarla (ENV zaten tanımlı)
+    echo $LD_LIBRARY_PATH >> /etc/ld.so.conf && \
+    ldconfig && \
     rm -rf /var/lib/apt/lists/*
 
+# 2. Çalışma Dizini
 WORKDIR /code
 
+# 3. requirements.txt ve paketleri kurma
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --upgrade pip
 RUN pip install -r /tmp/requirements.txt
 
+# 4. Oracle Wallet (Cüzdan) Dosyalarını Kopyalama
+# TNS_ADMIN=/app/wallet ile eşleşir
 COPY wallet /app/wallet/
 RUN chmod -R 777 /app/wallet/
 
+# 5. Kalan Django Proje Kodunu Kopyalama ve Başlatma
 COPY . /code/
 
 CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "2", "backend.wsgi:application"]
