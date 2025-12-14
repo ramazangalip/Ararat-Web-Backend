@@ -1,0 +1,26 @@
+# fly.toml
+app = "ararat-web-backend-api" # Uygulama adınızı benzersiz yapın
+primary_region = "ist"         # Istanbul (Türkiye) veya size en yakın bölge
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[build]
+  builder = "paketobuildpacks/builder-jammy-full" # Django için yaygın kullanılan builder
+
+[env]
+  # Django'nun statik dosyaları sunması için gereken ayarlar
+  PORT = "8080" # Uygulamanızın dinleyeceği port (Fly.io bunu zorunlu kılar)
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+[[vm]]
+  memory = "512mb"
+  cpu_kind = "shared"
+  cpus = 1
