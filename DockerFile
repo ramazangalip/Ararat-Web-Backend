@@ -1,13 +1,10 @@
 # Dockerfile
-# Fly.io Build'de Hata Veren Python Sürümünü Kullanıyoruz
 ARG PYTHON_VERSION=3.10
 FROM python:${PYTHON_VERSION}-slim
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 
-# 1. Oracle Instant Client ve gerekli bağımlılıkları yükleme
-# cx_Oracle/oracledb ve Python'ın ihtiyacı olan lib'ler için gereklidir
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     build-essential \
@@ -18,23 +15,15 @@ RUN apt-get update && \
     libpq-dev && \
     rm -rf /var/lib/apt/lists/*
 
-# 2. Çalışma Dizini
 WORKDIR /code
 
-# 3. requirements.txt dosyasını kopyalama ve bağımlılıkları kurma
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --upgrade pip
 RUN pip install -r /tmp/requirements.txt
 
-# 4. Oracle Wallet (Cüzdan) Dosyalarını Kopyalama
-# settings.py dosyanızdaki TNS_ADMIN=/app/wallet yolu ile eşleşir
-# Wallet klasörünüz projenizin kök dizininde olmalıdır
 COPY wallet /app/wallet/
 RUN chmod -R 777 /app/wallet/
 
-# 5. Kalan Django Proje Kodunu Kopyalama
 COPY . /code/
 
-# 6. Django'yu çalıştırmak için CMD (fly.toml'daki ayarlarınızı destekler)
-# WSGI path'iniz: backend.wsgi:application
 CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "2", "backend.wsgi:application"]
