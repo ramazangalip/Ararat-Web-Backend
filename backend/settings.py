@@ -7,15 +7,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 # =====================
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "unsafe-dev-key")
+SECRET_KEY = 'django-insecure-5y$_q8(fi8_o^8gjy3&h&b&b8&f6u)^_=k#61a6m-71smn6iv-'
 
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    ".fly.dev",
+    "*.render.com",
     "api.ararattoken.com", 
+    "*"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -99,45 +101,25 @@ TEMPLATES = [
     },
 ]
 
-# =====================
-# DATABASE (Oracle Autonomous)
-# =====================
-# settings.py dosyanızda
 
-# =====================
-# DATABASE (Oracle Autonomous) - GÜVENLİ VE FLY.IO UYUMLU AYAR
-# =====================
-
-# Fly.io Buildpack, proje dosyalarını /workspace veya /app/code dizinlerine kopyalar.
-# En güvenilir yol: /code/wallet (Çoğu Fly.io ve Buildpack ortamı için çalışır)
-
+# settings.py
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.oracle',
-        
-        'NAME': 'vc34n3dhidmi4ddm_medium', 
-        
-        'USER': 'ADMIN',
-        
-    
-        'PASSWORD': 'BÜ.Btmyo.2025?', 
-        
-        'OPTIONS': {
-           'config_dir': str(BASE_DIR / 'wallet'),
-           'wallet_location': str(BASE_DIR / 'wallet'),
-           
-       
-           'wallet_password': 'Btmyo.2025',
-        }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.fqoeoyfyvugqthmcbzlh', # Kullanıcı adınızı bu şekilde kullanın
+        'PASSWORD': 'R.s.17080607',
+        'HOST': 'aws-1-ap-south-1.pooler.supabase.com', 
+        'PORT': '6543', # KRİTİK DÜZELTME
     }
 }
 
-# =====================
-# STATIC / MEDIA
-# =====================
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "staticfiles" # Bu satır aslında mevcuttu, emin olmak için ekledim.
+
+# WhiteNoise için gerekli ayar
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
