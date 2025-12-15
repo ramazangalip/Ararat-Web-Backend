@@ -62,6 +62,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://ararattoken.com",          # 🔴 frontend domain
     "https://www.ararattoken.com",
+    "https://ararat-web-1.onrender.com/"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
