@@ -115,7 +115,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
         
-        'NAME': 'binuapp_medium', 
+        'NAME': 'vc34n3dhidmi4ddm_medium', 
         
         'USER': 'ADMIN',
         
