@@ -115,18 +115,19 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
         
-        # HASSAS VERİLER SADECE ORTAM DEĞİŞKENLERİNDEN OKUNMALI
-        'NAME': os.environ.get("ORACLE_DB_NAME"), # vc34n3dhidmi4ddm_medium olmalı
-        'USER': os.environ.get("ORACLE_DB_USER"), # ADMIN olmalı
-        'PASSWORD': os.environ.get("ORACLE_DB_PASSWORD"), # Parolanız olmalı
+        'NAME': 'binuapp_medium', 
+        
+        'USER': 'ADMIN',
+        
+    
+        'PASSWORD': 'BÜ.Btmyo.2025?', 
         
         'OPTIONS': {
-            # Önceki Windows yolu sızıntısını engellemek için, kesin Linux yolu (Hardcode)
-            'config_dir': '/code/wallet',
-            'wallet_location': '/code/wallet',
-            
-            # PAROLA yine Ortam Değişkeninden okunmalı
-            'wallet_password': os.environ.get("ORACLE_WALLET_PASSWORD"), 
+           'config_dir': str(BASE_DIR / 'wallet'),
+           'wallet_location': str(BASE_DIR / 'wallet'),
+           
+       
+           'wallet_password': 'Btmyo.2025',
         }
     }
 }
