@@ -111,23 +111,23 @@ TEMPLATES = [
 # Fly.io Buildpack, proje dosyalarını /workspace veya /app/code dizinlerine kopyalar.
 # En güvenilir yol: /code/wallet (Çoğu Fly.io ve Buildpack ortamı için çalışır)
 
-# settings.py dosyanızdaki DATABASES bloğu
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
         
-        'NAME': 'vc34n3dhidmi4ddm_medium', # Açıkça yazılan DB adı
-        'USER': 'ADMIN', # Açıkça yazılan kullanıcı
-        'PASSWORD': 'BÜ.Btmyo.2025?', # Açıkça yazılan parola
+        'NAME': 'vc34n3dhidmi4ddm_medium', 
+        
+        'USER': 'ADMIN',
+        
+    
+        'PASSWORD': 'BÜ.Btmyo.2025?', 
         
         'OPTIONS': {
-           'config_dir': str(BASE_DIR / 'wallet'), # Çözülmüş wallet yolu
-           'wallet_location': str(BASE_DIR / 'wallet'), # Çözülmüş wallet yolu
-           'wallet_password': 'Btmyo.2025', # Açıkça yazılan wallet parolası
+           'config_dir': str(BASE_DIR / 'wallet'),
+           'wallet_location': str(BASE_DIR / 'wallet'),
            
-           # KRİTİK EKLEME: Bu, Django/oracledb uyumsuzluğunu aşmayı hedefler.
-           'threaded': True,
+       
+           'wallet_password': 'Btmyo.2025',
         }
     }
 }
