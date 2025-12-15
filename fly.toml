@@ -4,7 +4,7 @@ primary_region = 'fra' # İsteğe bağlı olarak 'ist' yapabilirsiniz.
 console_command = '/code/manage.py shell'
 
 [build]
-  builder = "heroku/buildpacks:22"
+  builder = "paketobuildpacks/builder:base"
 
 [deploy]
   release_command = 'python manage.py migrate --noinput'
