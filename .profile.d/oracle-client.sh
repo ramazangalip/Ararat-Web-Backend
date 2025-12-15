@@ -15,8 +15,10 @@ curl -o /tmp/instantclient.zip https://download.oracle.com/otn_software/linux/in
 unzip /tmp/instantclient.zip -d $ORACLE_INSTANT_CLIENT_DIR
 rm /tmp/instantclient.zip
 
-# Oracle Wallet'ın bulunduğu yeri TNS_ADMIN olarak ayarlama
-export TNS_ADMIN=/app/wallet
-
-# LD_LIBRARY_PATH'i ayarlama (oracledb kütüphanesinin ihtiyacı)
+# ORACLE INSTANT CLIENT'ın yükleme dizinini PATH'e ekleme
+# Bu kısım oracledb kütüphanesinin ihtiyacı
 export LD_LIBRARY_PATH=$ORACLE_INSTANT_CLIENT_DIR/instantclient_${ORACLE_INSTANT_CLIENT_VERSION}
+
+# Oracle Wallet'ın bulunduğu yeri TNS_ADMIN olarak ayarlama
+# fly.toml'da ayarladık, ama script içinde de garanti altına alalım
+export TNS_ADMIN=/app/wallet

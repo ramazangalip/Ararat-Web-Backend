@@ -10,7 +10,8 @@ console_command = '/code/manage.py shell'
   release_command = 'python manage.py migrate --noinput'
 
 [env]
-  PORT = '8080' # Gunicorn ile uyumlu olması için 8080 yapıldı
+  PORT = '8080'
+  TNS_ADMIN = '/app/wallet'  # <-- BU AYARI EKLEYİN VEYA GÜNCELLEYİN
 
 [http_service]
   internal_port = 8080
