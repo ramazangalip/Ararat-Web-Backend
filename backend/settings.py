@@ -102,17 +102,31 @@ TEMPLATES = [
 # =====================
 # DATABASE (Oracle Autonomous)
 # =====================
+# settings.py dosyanızda
+
+# =====================
+# DATABASE (Oracle Autonomous) - GÜVENLİ VE FLY.IO UYUMLU AYAR
+# =====================
+
+# Fly.io Buildpack, proje dosyalarını /workspace veya /app/code dizinlerine kopyalar.
+# En güvenilir yol: /code/wallet (Çoğu Fly.io ve Buildpack ortamı için çalışır)
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': os.environ.get("ORACLE_DB_NAME"),
-        'USER': os.environ.get("ORACLE_DB_USER"),
-        'PASSWORD': os.environ.get("ORACLE_DB_PASSWORD"),
+        
+        # HASSAS VERİLER SADECE ORTAM DEĞİŞKENLERİNDEN OKUNMALI
+        'NAME': os.environ.get("ORACLE_DB_NAME"), # vc34n3dhidmi4ddm_medium olmalı
+        'USER': os.environ.get("ORACLE_DB_USER"), # ADMIN olmalı
+        'PASSWORD': os.environ.get("ORACLE_DB_PASSWORD"), # Parolanız olmalı
+        
         'OPTIONS': {
-            'config_dir': os.environ.get("TNS_ADMIN"),
-            'wallet_location': os.environ.get("TNS_ADMIN"),
-            'wallet_password': os.environ.get("ORACLE_WALLET_PASSWORD"),
+            # Önceki Windows yolu sızıntısını engellemek için, kesin Linux yolu (Hardcode)
+            'config_dir': '/code/wallet',
+            'wallet_location': '/code/wallet',
+            
+            # PAROLA yine Ortam Değişkeninden okunmalı
+            'wallet_password': os.environ.get("ORACLE_WALLET_PASSWORD"), 
         }
     }
 }

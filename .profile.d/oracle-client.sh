@@ -19,6 +19,4 @@ rm /tmp/instantclient.zip
 # Bu kısım oracledb kütüphanesinin ihtiyacı
 export LD_LIBRARY_PATH=$ORACLE_INSTANT_CLIENT_DIR/instantclient_${ORACLE_INSTANT_CLIENT_VERSION}
 
-# Oracle Wallet'ın bulunduğu yeri TNS_ADMIN olarak ayarlama
-# fly.toml'da ayarladık, ama script içinde de garanti altına alalım
-export TNS_ADMIN=/app/wallet
+# NOT: TNS_ADMIN burada AYARLANMAYACAK. settings.py kullanacak.
