@@ -16,12 +16,12 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "*.render.com",
     "api.ararattoken.com", 
-    "*"
+    
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://ararattoken.com",
-    "https://*.fly.dev",
+    
 ]
 
 # =====================
@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'storages',
     'corsheaders',
     'rest_framework',
 
@@ -60,7 +60,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://ararattoken.com",          # 🔴 frontend domain
+    "https://ararattoken.com",          
     "https://www.ararattoken.com",
     "https://ararat-web-1.onrender.com/"
 ]
@@ -133,3 +133,14 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
+
+# Proje bilgilerini buraya giriyoruz
+SUPABASE_URL = "https://fqoeoyfyvugqthmcbzlh.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxb2VveWZ5dnVncXRobWNiemxoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTgwNDM4OSwiZXhwIjoyMDgxMzgwMzg5fQ.fM9IPXEcZ-kOAvIZ4emuB_Zxpgy0EPxgktAmkw67ttg" # Sana özel service_role key'in tamamı
+SUPABASE_BUCKET_NAME = "media" # Supabase'de oluşturduğun bucket adı
+
+# Django'ya resimleri nereye yükleyeceğini söylüyoruz
+DEFAULT_FILE_STORAGE = 'backend.custom_storage.SupabaseStorage'
+
+# Frontend'in resimlere erişeceği URL formatı
+MEDIA_URL = f"{SUPABASE_URL}/storage/v1/object/public/{SUPABASE_BUCKET_NAME}/"
